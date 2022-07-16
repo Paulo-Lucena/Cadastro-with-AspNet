@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LucenaSolutions.Intern.APICadastro.Web", "LucenaSolutions.Intern.APICadastro.Web\LucenaSolutions.Intern.APICadastro.Web.csproj", "{D3F0B9C3-6167-467D-AEFB-7A71DAE32224}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3F0B9C3-6167-467D-AEFB-7A71DAE32224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F0B9C3-6167-467D-AEFB-7A71DAE32224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F0B9C3-6167-467D-AEFB-7A71DAE32224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F0B9C3-6167-467D-AEFB-7A71DAE32224}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B2CD263-0824-4AD2-9428-BAED3CD94E24}
+	EndGlobalSection
+EndGlobal
