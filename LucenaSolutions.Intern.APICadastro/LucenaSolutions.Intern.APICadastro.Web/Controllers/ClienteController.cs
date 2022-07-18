@@ -1,18 +1,16 @@
 ﻿using LucenaSolutions.Intern.APICadastro.Web.Interfaces;
 using LucenaSolutions.Intern.APICadastro.Web.Models;
-using LucenaSolutions.Intern.APICadastro.Web.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LucenaSolutions.Intern.APICadastro.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClienteController : ControllerBase, IServices<Cliente>
+    public class ClienteController : ControllerBase, IClienteRepository
     {
-        private readonly IServices<Cliente> _clienteServices;
+        private readonly IClienteRepository _clienteServices;
 
-        public ClienteController(IServices<Cliente> clienteServices)
+        public ClienteController(IClienteRepository clienteServices)
         {
             _clienteServices = clienteServices;
         }
@@ -29,8 +27,8 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Controllers
         public Task<ActionResult<Cliente>> GetById(int id) => _clienteServices.GetById(id);
 
         //api/clientefull
-/*        [HttpGet("Clientefull")]
-        public Task<ActionResult<IEnumerable<Cliente>>> GetFull() => _clienteServices.GetFull();*/
+        [HttpGet("Clientefull")]
+        public Task<ActionResult<IEnumerable<Cliente>>> GetFull() => _clienteServices.GetFull();
 
         //POST
         [HttpPost]

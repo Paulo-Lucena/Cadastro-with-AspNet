@@ -1,16 +1,17 @@
 ﻿using LucenaSolutions.Intern.APICadastro.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace LucenaSolutions.Intern.APICadastro.Web.Interfaces;
 
-public interface IClienteServices
-{ 
+public interface IClienteRepository
+{
     //Get
-    public Task<ActionResult<IEnumerable<Cliente>>> Get();
+    public Task<ActionResult<IEnumerable<Cliente>>> GetFull();
+
+    Task<ActionResult<IEnumerable<Cliente>>> Get();
 
     public Task<ActionResult<Cliente>> GetById(int id);
-
-    public Task<ActionResult<IEnumerable<Cliente>>> GetFull();
 
     //Post
     public Task<ActionResult> Post(Cliente cliente);
@@ -20,5 +21,5 @@ public interface IClienteServices
 
     //Delete
     public Task<ActionResult> Delete(int id);
+
 }
-//Substituída por IServices.
