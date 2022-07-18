@@ -10,9 +10,12 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Repositories
     {
 
         private readonly AppDBContext _appDBContext;
-        public ClienteRepository(AppDBContext appDBContext)
+        private readonly IUnitOfWork _uow;
+
+        public ClienteRepository(AppDBContext appDBContext, IUnitOfWork uow)
         {
             _appDBContext = appDBContext;
+            _uow = uow;
         }
 
         public async Task<ActionResult<IEnumerable<Cliente>>> Get()
@@ -53,7 +56,7 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Repositories
             }
 
             _appDBContext.Cliente.Add(cliente);
-            await _appDBContext.SaveChangesAsync();
+            await _uow.CommitAsync();
 
             return Ok();
         }
@@ -66,7 +69,7 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Repositories
             }
 
             _appDBContext.Entry(cliente).State = EntityState.Modified;
-            await _appDBContext.SaveChangesAsync();
+            await _uow.CommitAsync();
 
             return Ok();
         }
@@ -81,7 +84,7 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Repositories
             }
 
             _appDBContext.Cliente.Remove(cliente);
-            await _appDBContext.SaveChangesAsync();
+            await _uow.CommitAsync();
             return Ok();
         }
     }

@@ -1,6 +1,7 @@
 using LucenaSolutions.Intern.APICadastro.Web.Data;
 using LucenaSolutions.Intern.APICadastro.Web.Interfaces;
 using LucenaSolutions.Intern.APICadastro.Web.Repositories;
+using LucenaSolutions.Intern.APICadastro.Web.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 
 //Interfaces 
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
