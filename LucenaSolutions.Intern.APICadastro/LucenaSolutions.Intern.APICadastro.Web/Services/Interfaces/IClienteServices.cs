@@ -21,3 +21,4 @@ public interface IClienteServices
     //Delete
     public Task<ActionResult> Delete(int id);
 }
+//Substituída por IServices.

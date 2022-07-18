@@ -1,5 +1,6 @@
 using LucenaSolutions.Intern.APICadastro.Web.Data;
 using LucenaSolutions.Intern.APICadastro.Web.Interfaces;
+using LucenaSolutions.Intern.APICadastro.Web.Models;
 using LucenaSolutions.Intern.APICadastro.Web.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
 //Interfaces 
-builder.Services.AddScoped<IClienteServices, ClienteService>();
+builder.Services.AddScoped<IServices<Cliente>, ClienteService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

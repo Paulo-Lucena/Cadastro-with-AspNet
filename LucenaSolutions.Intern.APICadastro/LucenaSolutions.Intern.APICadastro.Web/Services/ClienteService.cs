@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LucenaSolutions.Intern.APICadastro.Web.Services;
 
-public class ClienteService : ControllerBase, IClienteServices
+public class ClienteService : ControllerBase, IServices<Cliente>
 {
     private readonly AppDBContext _appDBContext;
     public ClienteService(AppDBContext appDBContext)
