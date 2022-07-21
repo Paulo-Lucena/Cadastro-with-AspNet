@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LucenaSolutions.Intern.APICadastro.Web.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220715140431_Initial")]
+    [Migration("20220721164759_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,17 +37,12 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Migrations
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("EnderecoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EnderecoId");
 
                     b.ToTable("Cliente");
                 });
@@ -56,6 +51,9 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<string>("Complemento")
@@ -72,18 +70,25 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClienteId")
+                        .IsUnique();
+
                     b.ToTable("Endereco");
+                });
+
+            modelBuilder.Entity("LucenaSolutions.Intern.APICadastro.Web.Models.Endereco", b =>
+                {
+                    b.HasOne("LucenaSolutions.Intern.APICadastro.Web.Models.Cliente", null)
+                        .WithOne("Endereco")
+                        .HasForeignKey("LucenaSolutions.Intern.APICadastro.Web.Models.Endereco", "ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LucenaSolutions.Intern.APICadastro.Web.Models.Cliente", b =>
                 {
-                    b.HasOne("LucenaSolutions.Intern.APICadastro.Web.Models.Endereco", "Endereco")
-                        .WithMany()
-                        .HasForeignKey("EnderecoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.Navigation("Endereco")
                         .IsRequired();
-
-                    b.Navigation("Endereco");
                 });
 #pragma warning restore 612, 618
         }

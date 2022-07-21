@@ -1,28 +1,39 @@
 ﻿using LucenaSolutions.Intern.APICadastro.Web.Data;
-using LucenaSolutions.Intern.APICadastro.Web.Interfaces;
-using LucenaSolutions.Intern.APICadastro.Web.Repositories;
-using Microsoft.AspNetCore.Mvc;
+using LucenaSolutions.Intern.APICadastro.Web.Repositories.Domain;
+using LucenaSolutions.Intern.APICadastro.Web.Repositories.Interfaces;
 
-namespace LucenaSolutions.Intern.APICadastro.Web.UnitOfWork;
-
-public class UnitOfWork : ControllerBase, IUnitOfWork
+namespace LucenaSolutions.Intern.APICadastro.Web.UnitOfWork
 {
-
-    private readonly AppDBContext _appDBContext;
-    private ClienteRepository _clienteRepository;
-
-    public UnitOfWork(AppDBContext appDBContext)
+    public class UnitOfWork : IUnitOfWork
     {
-        _appDBContext = appDBContext;
-    }
+        private IClienteRepository _clienteRepository;
+        private IEnderecoRepository _enderecoRepository;
+        private AppDBContext _context;
 
-    public async Task CommitAsync()
-    {
-        await _appDBContext.SaveChangesAsync();
-    }
+        public UnitOfWork(AppDBContext appDBContext)
+        {
+            _context = appDBContext;
+        }
 
-    public IActionResult RollBack()
-    {
-        return BadRequest("Ação desfeita");
+        public IClienteRepository ClienteRepository
+        {
+            get
+            {
+                return _clienteRepository = _clienteRepository ?? new ClienteRepository(_context);
+            }
+        }
+
+        public IEnderecoRepository EnderecoRepository
+        {
+            get
+            {
+                return _enderecoRepository = _enderecoRepository ?? new EnderecoRepository(_context);
+            }
+        }
+
+        public async Task CommitAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

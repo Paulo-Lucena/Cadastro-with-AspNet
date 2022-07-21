@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LucenaSolutions.Intern.APICadastro.Web.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220715171438_mudandoTamanhoDeNAME")]
-    partial class mudandoTamanhoDeNAME
+    [Migration("20220721170804_fix")]
+    partial class fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

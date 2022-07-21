@@ -1,46 +1,94 @@
-﻿using LucenaSolutions.Intern.APICadastro.Web.Interfaces;
+﻿using AutoMapper;
+using LucenaSolutions.Intern.APICadastro.Web.DTOs;
 using LucenaSolutions.Intern.APICadastro.Web.Models;
+using LucenaSolutions.Intern.APICadastro.Web.UnitOfWork;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LucenaSolutions.Intern.APICadastro.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClienteController : ControllerBase, IClienteRepository
+    public class ClienteController : ControllerBase
     {
-        private readonly IClienteRepository _clienteServices;
 
-        public ClienteController(IClienteRepository clienteServices)
+        private readonly IUnitOfWork _context;
+        private readonly IMapper _mapper;
+
+        public ClienteController(IUnitOfWork context, IMapper mapper)
         {
-            _clienteServices = clienteServices;
+            _context = context;
+            _mapper = mapper;
         }
 
-        //GET
         [HttpGet]
-        public Task<ActionResult<IEnumerable<Cliente>>> Get()
+        public async Task<ActionResult<IEnumerable<ClienteDTO>>> Get()
         {
-            return _clienteServices.Get();
+            var clientes = await _context.ClienteRepository.GetClienteAsync();
+            var clienteDTO = _mapper.Map<List<ClienteDTO>>(clientes);
+
+            return clienteDTO;
         }
 
-        //api/cliente/1
         [HttpGet("{id:int}")]
-        public Task<ActionResult<Cliente>> GetById(int id) => _clienteServices.GetById(id);
+        public async Task<ActionResult<ClienteDTO>> GetById(int id)
+        {
+            var cliente = await _context.ClienteRepository.GetByIdAsync(p => p.Id == id);
 
-        //api/clientefull
-        [HttpGet("Clientefull")]
-        public Task<ActionResult<IEnumerable<Cliente>>> GetFull() => _clienteServices.GetFull();
+            if (cliente is null)
+            {
+                return NotFound();
+            }
 
-        //POST
+            var clienteDTO = _mapper.Map<ClienteDTO>(cliente);
+
+            return Ok();
+        }
+
         [HttpPost]
-        public Task<ActionResult> Post(Cliente cliente) => _clienteServices.Post(cliente);
+        public async Task<ActionResult> Post([FromBody] ClienteDTO clientedto)
+        {
+            var cliente = _mapper.Map<Cliente>(clientedto);
 
-        //PUT
+            _context.ClienteRepository.Add(cliente);
+            await _context.CommitAsync();
+
+            return Ok();
+        }
+
         [HttpPut("{id:int}")]
-        public Task<ActionResult> Put(int id, Cliente cliente) => _clienteServices.Put(id, cliente);
+        public async Task<ActionResult> put(int id, [FromBody] ClienteDTO clientedto)
+        {
+            if (id != clientedto.Id)
+            {
+                return BadRequest();
+            }
 
-        //DELETE
+            var cliente = _mapper.Map<Cliente>(clientedto);
+
+            _context.ClienteRepository.Update(cliente);
+            await _context.CommitAsync();
+
+            return Ok();
+        }
+
         [HttpDelete("{id:int}")]
-        public Task<ActionResult> Delete(int id) => _clienteServices.Delete(id);
+        public async Task<ActionResult<ClienteDTO>> Delete(int id)
+        {
+            var cliente = await _context.ClienteRepository.GetByIdAsync(c => c.Id == id);
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            _context.ClienteRepository.Delete(cliente);
+            await _context.CommitAsync();
+
+            var ClienteDTO = _mapper.Map<ClienteDTO>(cliente);
+
+            return Ok();
+        }
 
     }
 }

@@ -8,7 +8,6 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 3)]
         [MaxLength(100)]
         public string Nome { get; set; }
 
@@ -16,7 +15,6 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Models
         public string CPF { get; set; }
 
         [Required]
-        //[JsonIgnore]
         public Endereco Endereco { get; set; }
 
         public DateTime DataNascimento { get; set; }
@@ -24,7 +22,6 @@ namespace LucenaSolutions.Intern.APICadastro.Web.Models
         public DateTime DataCadastro { get; set; } = DateTime.Now;
 
 
-    }
 
-    //TODO: Verificar o JsonIgnore de Endereço
+    }
 }

@@ -1,6 +1,6 @@
+using AutoMapper;
 using LucenaSolutions.Intern.APICadastro.Web.Data;
-using LucenaSolutions.Intern.APICadastro.Web.Interfaces;
-using LucenaSolutions.Intern.APICadastro.Web.Repositories;
+using LucenaSolutions.Intern.APICadastro.Web.DTOs.Mappings;
 using LucenaSolutions.Intern.APICadastro.Web.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -20,9 +20,17 @@ var mySqlConnection = builder.Configuration.GetConnectionString("ConexaoPadraoMy
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection)));
 
-//Interfaces 
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+//Unit Of Work 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+//Mapper
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
